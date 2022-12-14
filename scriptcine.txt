@@ -1,0 +1,178 @@
+-- Generado por Oracle SQL Developer Data Modeler 22.2.0.165.1149
+--   en:        2022-11-17 17:33:43 COT
+--   sitio:      Oracle Database 11g
+--   tipo:      Oracle Database 11g
+
+
+
+-- predefined type, no DDL - MDSYS.SDO_GEOMETRY
+
+-- predefined type, no DDL - XMLTYPE
+
+CREATE TABLE asiento (
+    id_asiento     VARCHAR2(3 CHAR) NOT NULL,
+    fila           VARCHAR2(2 CHAR) NOT NULL,
+    columna        VARCHAR2(2 CHAR) NOT NULL,
+    estado_asiento VARCHAR2(15 CHAR) NOT NULL
+);
+
+ALTER TABLE asiento ADD CONSTRAINT asiento_pk PRIMARY KEY ( id_asiento );
+
+CREATE TABLE cargo (
+    id_cargo     NUMBER NOT NULL,
+    nombre_cargo VARCHAR2(20 CHAR) NOT NULL
+);
+
+ALTER TABLE cargo ADD CONSTRAINT cargo_pk PRIMARY KEY ( id_cargo );
+
+CREATE TABLE cine (
+    id_cine        NUMBER NOT NULL,
+    nombre_cine    VARCHAR2(30 CHAR) NOT NULL,
+    direccion_cine VARCHAR2(40 CHAR) NOT NULL
+);
+
+ALTER TABLE cine ADD CONSTRAINT cine_pk PRIMARY KEY ( id_cine );
+
+CREATE TABLE empleado (
+    id_emp        NUMBER NOT NULL,
+    nombre_emp    VARCHAR2(20 CHAR) NOT NULL,
+    apellido_emp  VARCHAR2(20 CHAR) NOT NULL,
+    direccion_emp VARCHAR2(40 CHAR) NOT NULL,
+    telefono_emp  NUMBER NOT NULL,
+    cine_trabajo  NUMBER NOT NULL,
+    cargo         NUMBER NOT NULL
+);
+
+ALTER TABLE empleado ADD CONSTRAINT empleado_pk PRIMARY KEY ( id_emp );
+
+CREATE TABLE formato (
+    id_formato     NUMBER NOT NULL,
+    nombre_formato VARCHAR2(5 CHAR) NOT NULL
+);
+
+ALTER TABLE formato ADD CONSTRAINT formato_pk PRIMARY KEY ( id_formato );
+
+CREATE TABLE funcion (
+    fecha_hora_funcion DATE NOT NULL,
+    cinema             NUMBER NOT NULL,
+    asiento            VARCHAR2(3 CHAR) NOT NULL,
+    pelicula           VARCHAR2(10 CHAR) NOT NULL,
+    sala               VARCHAR2(20 CHAR) NOT NULL,
+    formato_funcion    VARCHAR2(5 CHAR) NOT NULL
+);
+
+CREATE TABLE pelicula (
+    id_pelicula        VARCHAR2(10 CHAR) NOT NULL,
+    nombre_pelicula    VARCHAR2(30 CHAR) NOT NULL,
+    duracion           NUMBER NOT NULL,
+    sinopsis           VARCHAR2(500) NOT NULL,
+    genero             VARCHAR2(20 CHAR) NOT NULL,
+    director           VARCHAR2(40 CHAR) NOT NULL,
+    fecha_estreno      DATE NOT NULL,
+    fecha_finalizacion DATE NOT NULL,
+    edad_pelicula      NUMBER NOT NULL
+);
+
+ALTER TABLE pelicula ADD CONSTRAINT pelicula_pk PRIMARY KEY ( id_pelicula );
+
+CREATE TABLE sala (
+    id_sala       VARCHAR2(20 CHAR) NOT NULL,
+    asientos_sala NUMBER NOT NULL,
+    filas_sala    NUMBER NOT NULL,
+    columnas_sala NUMBER NOT NULL,
+    forma_sala    VARCHAR2(20 CHAR) NOT NULL,
+    formato_sala  NUMBER NOT NULL
+);
+
+ALTER TABLE sala ADD CONSTRAINT sala_pk PRIMARY KEY ( id_sala );
+
+CREATE TABLE usuario (
+    id_usuario      NUMBER NOT NULL,
+    nombre          VARCHAR2(20 CHAR) NOT NULL,
+    apellido        VARCHAR2(20 CHAR) NOT NULL,
+    correo          VARCHAR2(40 CHAR) NOT NULL,
+    contraseña      VARCHAR2(25 CHAR) NOT NULL,
+    f_nacimiento    DATE NOT NULL,
+    telefono        NUMBER NOT NULL,
+    tokens          NUMBER NOT NULL,
+    cine_registrado NUMBER NOT NULL
+);
+
+ALTER TABLE usuario ADD CONSTRAINT usuario_pk PRIMARY KEY ( id_usuario );
+
+ALTER TABLE empleado
+    ADD CONSTRAINT empleado_cargo_fk FOREIGN KEY ( cargo )
+        REFERENCES cargo ( id_cargo );
+
+ALTER TABLE empleado
+    ADD CONSTRAINT empleado_cine_fk FOREIGN KEY ( cine_trabajo )
+        REFERENCES cine ( id_cine );
+
+ALTER TABLE funcion
+    ADD CONSTRAINT funcion_asiento_fk FOREIGN KEY ( asiento )
+        REFERENCES asiento ( id_asiento );
+
+ALTER TABLE funcion
+    ADD CONSTRAINT funcion_cine_fk FOREIGN KEY ( cinema )
+        REFERENCES cine ( id_cine );
+
+ALTER TABLE funcion
+    ADD CONSTRAINT funcion_pelicula_fk FOREIGN KEY ( pelicula )
+        REFERENCES pelicula ( id_pelicula );
+
+ALTER TABLE funcion
+    ADD CONSTRAINT funcion_sala_fk FOREIGN KEY ( sala )
+        REFERENCES sala ( id_sala );
+
+ALTER TABLE sala
+    ADD CONSTRAINT sala_formato_fk FOREIGN KEY ( formato_sala )
+        REFERENCES formato ( id_formato );
+
+ALTER TABLE usuario
+    ADD CONSTRAINT usuario_cine_fk FOREIGN KEY ( cine_registrado )
+        REFERENCES cine ( id_cine );
+
+
+
+-- Informe de Resumen de Oracle SQL Developer Data Modeler: 
+-- 
+-- CREATE TABLE                             9
+-- CREATE INDEX                             0
+-- ALTER TABLE                             16
+-- CREATE VIEW                              0
+-- ALTER VIEW                               0
+-- CREATE PACKAGE                           0
+-- CREATE PACKAGE BODY                      0
+-- CREATE PROCEDURE                         0
+-- CREATE FUNCTION                          0
+-- CREATE TRIGGER                           0
+-- ALTER TRIGGER                            0
+-- CREATE COLLECTION TYPE                   0
+-- CREATE STRUCTURED TYPE                   0
+-- CREATE STRUCTURED TYPE BODY              0
+-- CREATE CLUSTER                           0
+-- CREATE CONTEXT                           0
+-- CREATE DATABASE                          0
+-- CREATE DIMENSION                         0
+-- CREATE DIRECTORY                         0
+-- CREATE DISK GROUP                        0
+-- CREATE ROLE                              0
+-- CREATE ROLLBACK SEGMENT                  0
+-- CREATE SEQUENCE                          0
+-- CREATE MATERIALIZED VIEW                 0
+-- CREATE MATERIALIZED VIEW LOG             0
+-- CREATE SYNONYM                           0
+-- CREATE TABLESPACE                        0
+-- CREATE USER                              0
+-- 
+-- DROP TABLESPACE                          0
+-- DROP DATABASE                            0
+-- 
+-- REDACTION POLICY                         0
+-- 
+-- ORDS DROP SCHEMA                         0
+-- ORDS ENABLE SCHEMA                       0
+-- ORDS ENABLE OBJECT                       0
+-- 
+-- ERRORS                                   0
+-- WARNINGS                                 0
